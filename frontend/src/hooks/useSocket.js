@@ -3,7 +3,7 @@ import { io } from 'socket.io-client'
 import toast from 'react-hot-toast'
 import { useRaceStore } from '../store/raceStore'
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const ALERT_CONFIG = {
   safety_car:  { emoji: '🟡', label: 'SAFETY CAR',         bg: '#FFA500', color: '#000' },
@@ -20,7 +20,9 @@ export function useSocket() {
   const { setRaceUpdate, setConnected, pushAlert } = useRaceStore()
 
   useEffect(() => {
-    const socket = io(BACKEND_URL, { transports: ['websocket', 'polling'] })
+    const socket = io(import.meta.env.VITE_API_URL, {
+  transports: ["websocket"]
+})
     socketRef.current = socket
 
     socket.on('connect', () => { setConnected(true); console.log('[WS] Connected') })
