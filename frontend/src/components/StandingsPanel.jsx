@@ -28,17 +28,29 @@ export default function StandingsPanel() {
   const [loading, setLoading]       = useState(true)
 
   useEffect(() => {
-    Promise.all([
-      axios.get(`${BACKEND}/api/standings/drivers`),
-      axios.get(`${BACKEND}/api/standings/constructors`),
-      axios.get(`${BACKEND}/api/race/last`),
-    ]).then(([d, c, r]) => {
+  const fetchData = async () => {
+    try {
+      const d = await axios.get(`${BACKEND}/api/standings/drivers`)
+      const c = await axios.get(`${BACKEND}/api/standings/constructors`)
+      const r = await axios.get(`${BACKEND}/api/race/last`)
+
+      console.log("Drivers:", d.data)
+      console.log("Constructors:", c.data)
+      console.log("Race:", r.data)
+
       setDrivers(d.data)
       setConstructors(c.data)
       setLastRace(r.data)
+
+    } catch (err) {
+      console.error("❌ API ERROR:", err)
+    } finally {
       setLoading(false)
-    }).catch(() => setLoading(false))
-  }, [])
+    }
+  }
+
+  fetchData()
+}, [])
 
   if (loading) return (
     <div style={s.loading}>
