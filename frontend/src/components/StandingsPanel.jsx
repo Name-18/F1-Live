@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const BACKEND = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
+const BACKEND = import.meta.env.VITE_BACKEND_URL 
 
 const TEAM_COLORS = {
   'red_bull':       '#3671C6',
