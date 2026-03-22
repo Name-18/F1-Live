@@ -3,7 +3,7 @@ import { io } from 'socket.io-client'
 import toast from 'react-hot-toast'
 import { useRaceStore } from '../store/raceStore'
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+const BACKEND_URL ="https://f1-live-9abb.onrender.com"
 
 const ALERT_CONFIG = {
   safety_car:  { emoji: '🟡', label: 'SAFETY CAR',         bg: '#FFA500', color: '#000' },
