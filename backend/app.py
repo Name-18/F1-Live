@@ -1,4 +1,4 @@
-﻿from flask import Flask
+from flask import Flask
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from config import Config
@@ -14,23 +14,37 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    CORS(app, resources={r"/api/*": {"origins": Config.CORS_ORIGINS}})
+    CORS(
+        app,
+        origins=Config.CORS_ORIGINS,
+        supports_credentials=True
+    )
+
     socketio.init_app(
         app,
         cors_allowed_origins=Config.CORS_ORIGINS,
         async_mode="threading"
     )
 
+   
     app.register_blueprint(race_bp, url_prefix="/api")
     app.register_blueprint(driver_bp, url_prefix="/api")
     app.register_blueprint(standings_bp, url_prefix="/api")
+
 
     register_socket_events(socketio)
 
     return app
 
+
 app = create_app()
 
 if __name__ == "__main__":
     start_poller(socketio)
-    socketio.run(app, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+    socketio.run(
+        app,
+        host="0.0.0.0",
+        port=5000,
+        debug=False,
+        use_reloader=False
+    )
